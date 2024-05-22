@@ -1,0 +1,19 @@
+.parent,
+.player-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.player-container {
+    flex-direction: column;
+}
+
+.player-image {
+    height: 200px;
+    width: 200px;
+    border: 2px solid black;
+    background-image: url(./gojo.png);
+    background-size: cover;
+}

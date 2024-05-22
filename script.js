@@ -13,6 +13,9 @@ createGameButton.addEventListener("click", () => {
 })
 
 function createGame(playerCount, startingBalance) {
+    const startingElements = document.querySelector(".start");
+    if (startingElements) startingElements.remove();
+
     const parentDiv = document.createElement("div");
     parentDiv.classList.add("parent")
     document.body.appendChild(parentDiv);
@@ -30,7 +33,7 @@ function createGame(playerCount, startingBalance) {
         playerName.setAttribute("id", "player-name");
 
         const playerBalance = document.createElement("div");
-        playerBalance.textContent = startingBalance;
+        playerBalance.textContent = `Balance: ${startingBalance}`;
         playerBalance.classList.add("player-text");
         playerBalance.setAttribute("id", "player-balance");
 
