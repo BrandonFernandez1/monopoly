@@ -1,22 +1,44 @@
-const numberButton = document.querySelector("#storeValueButton");
+const createGameButton = document.querySelector("#start-button");
+const playerCountInput = document.querySelector("#player-count");
+const startingBalance = document.querySelector("#starting-balance");
 
-numberButton.addEventListener("click", () => {
-    const numberOfPlayers = document.querySelector("#numberPlayers").value;
-    
-    
+createGameButton.addEventListener("click", () => {
+    if (playerCountInput.value == '') {
+        // console.log("Please input a number between 1-4.")
+    } else if (startingBalance.value == '') {
+        // console.log("Please input a valid starting balance.")
+    } else {
+        createGame(4, 2000)
+    }
 })
 
-function createGame(playerCount) {
-    const containerDiv = document.createElement("div");
-    containerDiv.classList.add("player-cards");
+function createGame(playerCount, startingBalance) {
+    const parentDiv = document.createElement("div");
+    parentDiv.classList.add("parent")
+    document.body.appendChild(parentDiv);
 
-    document.body.appendChild(containerDiv);
-    
     for (let i = 0; i < playerCount; i++) {
-        const player = document.createElement("div");
+        const playerContainerDiv = document.createElement("div");
+        playerContainerDiv.classList.add("player-container");
+
+        const playerImage = document.createElement("div");
+        playerImage.classList.add("player-image");
 
         const playerName = document.createElement("div");
-        playerName.value = //...
-        player.appendChild(playerName);
+        playerName.textContent = `Player ${i + 1}`;
+        playerName.classList.add("player-text");
+        playerName.setAttribute("id", "player-name");
+
+        const playerBalance = document.createElement("div");
+        playerBalance.textContent = startingBalance;
+        playerBalance.classList.add("player-text");
+        playerBalance.setAttribute("id", "player-balance");
+
+        playerContainerDiv.appendChild(playerImage);
+        playerContainerDiv.appendChild(playerName);
+        playerContainerDiv.appendChild(playerBalance);
+       
+        parentDiv.appendChild(playerContainerDiv);
     }
+    console.log(parentDiv);
 }
