@@ -4,11 +4,15 @@ const startingBalance = document.querySelector("#starting-balance");
 
 createGameButton.addEventListener("click", () => {
     if (playerCountInput.value == '') {
-        // console.log("Please input a number between 1-4.")
+        console.log("Please input a number between 1-4.")
     } else if (startingBalance.value == '') {
-        // console.log("Please input a valid starting balance.")
+        console.log("Please input a valid starting balance.")
     } else {
-        createGame(4, 2000)
+        const playerCount = parseInt(playerCountInput.value)
+        const startingBalance = parseInt(startingBalance.value);
+
+        const playerNames = getPlayerNames(sum);
+        //createGame(playerCount, startingBalance);
     }
 })
 
@@ -44,4 +48,14 @@ function createGame(playerCount, startingBalance) {
         parentDiv.appendChild(playerContainerDiv);
     }
     console.log(parentDiv);
+}
+
+function getPlayerNames(count) {
+    const containerDiv = document.createElement("div");
+    containerDiv.classList.add("name-form");
+
+    for (let i = 0; i < count; i++) {
+        const formLabel = document.createElement("label");
+        formLabel.setAttribute("for", `player-${i + 1}`);
+    }
 }
