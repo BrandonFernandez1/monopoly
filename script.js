@@ -1,24 +1,62 @@
-const createGameButton = document.querySelector("#start-button");
+const createNameFormButton = document.querySelector("#start-button");
 const playerCountInput = document.querySelector("#player-count");
 const startingBalance = document.querySelector("#starting-balance");
+const startingElements = document.querySelector(".start");
 
-createGameButton.addEventListener("click", () => {
+let nameSubmitButton;
+
+createNameFormButton.addEventListener("click", () => {
     if (playerCountInput.value == '') {
         console.log("Please input a number between 1-4.")
     } else if (startingBalance.value == '') {
         console.log("Please input a valid starting balance.")
     } else {
-        const playerCount = parseInt(playerCountInput.value)
-        const startingBalance = parseInt(startingBalance.value);
-
-        const playerNames = getPlayerNames(sum);
-        //createGame(playerCount, startingBalance);
+        createPlayerNameForm(playerCountInput.value);
     }
 })
 
-function createGame(playerCount, startingBalance) {
-    const startingElements = document.querySelector(".start");
+nameSubmitButton.addEventListener("click", () => {
+    console.log("Button clicked!");
+});
+
+function createPlayerNameForm(count) {
     if (startingElements) startingElements.remove();
+
+    const nameContainerDiv = document.createElement("div");
+    nameContainerDiv.classList.add("name-form");
+
+    const formHeader = document.createElement("h1");
+    formHeader.textContent = "Add Player Names";
+    nameContainerDiv.appendChild(formHeader);
+
+    for (let i = 0; i < count; i++) {
+        const formDiv = document.createElement("div");
+        formDiv.classList.add("player")
+  
+        const formLabel = document.createElement("label");
+        formLabel.setAttribute("for", `player-${i + 1}`);
+        formLabel.textContent = `Player ${i + 1}`;
+
+        const nameInput = document.createElement("input");
+        nameInput.setAttribute("type", "text");
+        nameInput.setAttribute("name", `player-${i + 1}`);
+
+        nameContainerDiv.appendChild(formDiv);
+        formDiv.appendChild(formLabel);
+        formDiv.appendChild(nameInput);
+    }
+    const nameSubmitButton = document.createElement("button");
+    nameSubmitButton.setAttribute("id", "name-button");
+    nameSubmitButton.textContent = "Submit";
+    nameContainerDiv.appendChild(nameSubmitButton);
+    
+    document.body.appendChild(nameContainerDiv);
+    console.log(nameContainerDiv);
+}
+
+function createGame(playerCount, startingBalance) {
+    const nameForm = document.querySelector(".name-form")
+    if (nameForm) nameForm.remove();
 
     const parentDiv = document.createElement("div");
     parentDiv.classList.add("parent")
@@ -50,12 +88,3 @@ function createGame(playerCount, startingBalance) {
     console.log(parentDiv);
 }
 
-function getPlayerNames(count) {
-    const containerDiv = document.createElement("div");
-    containerDiv.classList.add("name-form");
-
-    for (let i = 0; i < count; i++) {
-        const formLabel = document.createElement("label");
-        formLabel.setAttribute("for", `player-${i + 1}`);
-    }
-}
