@@ -3,6 +3,9 @@ const playerCountInput = document.querySelector("#player-count");
 const startingBalance = document.querySelector("#starting-balance");
 const startingElements = document.querySelector(".start");
 
+const playerCount = parseInt(playerCountInput.value);
+const balance = parseInt(startingBalance.value);
+
 let nameSubmitButton;
 
 createNameFormButton.addEventListener("click", () => {
@@ -12,12 +15,17 @@ createNameFormButton.addEventListener("click", () => {
         console.log("Please input a valid starting balance.")
     } else {
         createPlayerNameForm(playerCountInput.value);
+        
+        //nameSubmitButton.addEventListener("click", () => createGame(playerCount , balance));
     }
 })
 
-nameSubmitButton.addEventListener("click", () => {
-    console.log("Button clicked!");
-});
+console.log(nameSubmitButton);
+
+
+// nameSubmitButton.addEventListener("click", () => {
+//     console.log("Button clicked!");
+// });
 
 function createPlayerNameForm(count) {
     if (startingElements) startingElements.remove();
@@ -87,4 +95,3 @@ function createGame(playerCount, startingBalance) {
     }
     console.log(parentDiv);
 }
-
