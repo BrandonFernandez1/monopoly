@@ -20,9 +20,6 @@ createNameFormButton.addEventListener("click", () => {
     }
 })
 
-console.log(nameSubmitButton);
-
-
 // nameSubmitButton.addEventListener("click", () => {
 //     console.log("Button clicked!");
 // });
