@@ -6,8 +6,6 @@ const startingElements = document.querySelector(".start");
 const playerCount = parseInt(playerCountInput.value);
 const balance = parseInt(startingBalance.value);
 
-let nameSubmitButton;
-
 createNameFormButton.addEventListener("click", () => {
     if (playerCountInput.value == '') {
         console.log("Please input a number between 1-4.")
@@ -15,14 +13,18 @@ createNameFormButton.addEventListener("click", () => {
         console.log("Please input a valid starting balance.")
     } else {
         createPlayerNameForm(playerCountInput.value);
-        
-        //nameSubmitButton.addEventListener("click", () => createGame(playerCount , balance));
+        pressPlayerFormSubmitButton(playerCountInput.value, startingBalance.value);
     }
 })
 
-// nameSubmitButton.addEventListener("click", () => {
-//     console.log("Button clicked!");
-// });
+function playerFormSubmitButton(count, balance) {
+    const nameSubmitButton = document.querySelector("#name-button");
+
+    nameSubmitButton.addEventListener("click", () => {
+        createGame(count, balance);
+        console.log(`count: ${count}, balance: ${balance}`);
+    });
+}
 
 function createPlayerNameForm(count) {
     if (startingElements) startingElements.remove();
