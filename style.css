@@ -20,3 +20,9 @@
     background-image: url(./gojo.png);
     background-size: cover;
 }
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
