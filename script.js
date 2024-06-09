@@ -94,3 +94,26 @@ function createGame(playerCount, startingBalance) {
     }
     console.log(parentDiv);
 }
+
+function showPlayerNameModal(playerCount) {
+    const playerForm = document.querySelector("dialog");
+    
+    for (let i = 0; i < playerCount; i++) {
+        const playerLabel = document.createElement("label");
+        playerLabel.setAttribute("for", `player-${i + 1}`);
+        playerForm.appendChild(playerLabel)
+
+        const playerNameInput = document.createElement("input");
+        playerNameInput.setAttribute("name", `player-${i + 1}`);
+        playerNameInput.setAttribute("type", "number");
+        playerForm.appendChild(playerNameInput);
+    }
+
+    const cancelButton = document.createElement("button");
+    cancelButton.setAttribute("id", "cancel-button");
+    cancelButton.addEventListener("click", () => {
+        const inputs = document.querySelectorAll("input");
+        inputs.value = '';
+        playerForm.close();
+    })
+}
