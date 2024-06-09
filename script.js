@@ -63,7 +63,7 @@ function modalButtonEventListeners() {
 
         if (formElement) formElement.remove();
         if (modalButtons) modalButtons.forEach((button) => {button.remove()});
-        playerNameModal.close();    
+        playerNameModal.close();
     })
 
     confirmButton.addEventListener("click", () => {
