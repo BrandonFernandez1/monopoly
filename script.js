@@ -18,6 +18,12 @@ initializeGameButton.addEventListener("click", () => {
     }
 })
 
+function Player(name, balance, bankrupt) {
+    this.name = name;
+    this.balance = balance;
+    this.bankrupt = bankrupt;
+}
+
 function showPlayerNameModal(count) {
     const inputForm = document.createElement("form");
     playerNameModal.appendChild(inputForm);
@@ -86,6 +92,8 @@ function modalButtonEventListeners() {
 }
 
 function createGame(playerArray) {
+    if (playerNameModal) playerNameModal.remove();
+
     const length = playerArray.length;
     console.log(playerArray);
 
@@ -114,14 +122,9 @@ function createGame(playerArray) {
 
         parentDiv.appendChild(playerContainerDiv);
     }
-    console.log(parentDiv);
 }
 
-function Player(name, balance, bankrupt) {
-    this.name = name;
-    this.balance = balance;
-    this.bankrupt = bankrupt;
-}
+
 
 // function createPlayerNameForm(count) {
 //     if (startingElements) startingElements.remove();
