@@ -26,3 +26,8 @@ form {
     flex-direction: column;
     gap: 15px;
 }
+
+.pass-go-container {
+    margin-left: auto;
+    text-align: center;
+}

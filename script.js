@@ -4,11 +4,10 @@ const startingBalance = document.querySelector("#starting-balance");
 const startingElements = document.querySelector(".start");
 const playerNameModal = document.querySelector("dialog");
 
-const playerCount = parseInt(playerCountInput.value);
-const balance = parseInt(startingBalance.value);
+let players = [];
 
 initializeGameButton.addEventListener("click", () => {
-    if (playerCountInput.value == '') {
+    if (playerCountInput.value == '') { //How to make sure the user inputs only between 1 and 4. 
         console.log("Please input a number between 1-4.")
     } else if (startingBalance.value == '') {
         console.log("Please input a valid starting balance.")
@@ -22,6 +21,9 @@ function Player(name, balance, bankrupt) {
     this.name = name;
     this.balance = balance;
     this.bankrupt = bankrupt;
+    this.passGo = function () {
+        this.balance += 200;
+    }
 }
 
 function showPlayerNameModal(count) {
@@ -75,8 +77,6 @@ function modalButtonEventListeners() {
     confirmButton.addEventListener("click", () => {
         if (startingElements) startingElements.remove();
 
-        let players = [];
-
         const bank = new Player("Bank", 1000000, false);
         const freeParking = new Player("Free Parking", 0, false);
         players.push(bank, freeParking);
@@ -88,6 +88,8 @@ function modalButtonEventListeners() {
         
         playerNameModal.close();
         createGame(players);
+        //Call function that adds function here
+        actionPassGo();
     })
 }
 
@@ -95,7 +97,6 @@ function createGame(playerArray) {
     if (playerNameModal) playerNameModal.remove();
 
     const length = playerArray.length;
-    console.log(playerArray);
 
     const parentDiv = document.createElement("div");
     parentDiv.classList.add("parent");
@@ -104,6 +105,7 @@ function createGame(playerArray) {
     for (let i = 2; i < length; i++) {
         const playerContainerDiv = document.createElement("div");
         playerContainerDiv.classList.add("player-container");
+        playerContainerDiv.setAttribute("id", `player-${i - 1}-parent`);
 
         const playerImage = document.createElement("div");
         playerImage.classList.add("player-image");
@@ -116,14 +118,51 @@ function createGame(playerArray) {
         playerBalance.textContent = `Balance: ${playerArray[i].balance}`;
         playerBalance.classList.add("player-balance");
 
+        const passGoContainer = document.createElement("div");
+        passGoContainer.classList.add("pass-go-container");
+
+        const passGoArrow = document.createElement("div");
+        passGoArrow.textContent = "→";
+        passGoArrow.classList.add("pass-go-arrow");
+        passGoContainer.appendChild(passGoArrow);
+        
+        const passGoButton = document.createElement("button");
+        passGoButton.classList.add("pass-go");
+        passGoButton.setAttribute("id", `player-${i - 1}-go-button`);
+        passGoButton.textContent = "GO";
+        passGoContainer.appendChild(passGoButton);
+
         playerContainerDiv.appendChild(playerImage);
         playerContainerDiv.appendChild(playerName);
         playerContainerDiv.appendChild(playerBalance);
+        playerContainerDiv.appendChild(passGoContainer);
 
         parentDiv.appendChild(playerContainerDiv);
     }
+
+    //const bankCard = document.createElement("")
+    
 }
 
+function checkStartingInput(input) {
+    const number = Number(input);
+    if (Number.isInteger(number) && input > 0 && input < 4) return true;
+    else return false;
+}
+
+function actionPassGo() {
+    const passGoButton = document.querySelectorAll(".pass-go");
+
+    passGoButton.forEach((button) => {
+        button.addEventListener("click", (event) => {
+            if (button.id.includes(2)) {
+                players[2].passGo();
+                console.log(players[2].balance);
+            }
+        })
+    })
+    //Is there a way to do this without if statements???
+}
 
 
 // function createPlayerNameForm(count) {
