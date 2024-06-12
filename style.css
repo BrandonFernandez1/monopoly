@@ -13,12 +13,25 @@
     flex-direction: column;
 }
 
-.player-image {
+.player-image,
+.bank-image,
+.free-parking-image {
     height: 200px;
     width: 200px;
     border: 2px solid black;
-    background-image: url(./gojo.png);
     background-size: cover;
+}
+
+.player-image {
+    background-image: url(./images/gojo.png);
+}
+
+.bank-image {
+    background-image: url(./images/bank.jpeg);
+}
+
+.free-parking-image {
+    background-image: url(./images/free-parking.jpg);
 }
 
 form {

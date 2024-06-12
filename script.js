@@ -77,8 +77,6 @@ function modalButtonEventListeners() {
     confirmButton.addEventListener("click", () => {
         if (startingElements) startingElements.remove();
 
-        
-
         inputs.forEach((input) => {
             const player = new Player(input.value, startingBalance.value, false);
             players.push(player);
@@ -90,8 +88,9 @@ function modalButtonEventListeners() {
 
         playerNameModal.close();
         createGame(players);
-        //Call function that adds function here
-        actionPassGo();
+        //Call function that adds function here\
+        createTransactionModal();
+        passGo();
     })
 }
 
@@ -99,6 +98,7 @@ function createGame(playerArray) {
     if (playerNameModal) playerNameModal.remove();
 
     const length = playerArray.length - 2;
+    const lastElement = playerArray.length - 1;
 
     const parentDiv = document.createElement("div");
     parentDiv.classList.add("parent");
@@ -142,8 +142,44 @@ function createGame(playerArray) {
         parentDiv.appendChild(playerContainerDiv);
     }
 
-    //const bankCard = document.createElement("")
+    const bankContainer = document.createElement("div")
+    bankContainer.classList.add("player-container");
     
+    const bankImage = document.createElement("div");
+    bankImage.classList.add("bank-image");
+
+    const bankName = document.createElement("div");
+    bankName.classList.add("player-text");
+    bankName.textContent = "Bank";
+
+    const bankBalance = document.createElement("div");
+    bankBalance.classList.add("bank-balance");
+    bankBalance.textContent = `Balance: ∞`;
+
+    bankContainer.appendChild(bankImage);
+    bankContainer.appendChild(bankName);
+    bankContainer.appendChild(bankBalance);
+    document.body.appendChild(bankContainer);
+    
+    
+    const freeParkingContainer = document.createElement("div");
+    freeParkingContainer.classList.add("player-container");
+
+    const freeParkingImage = document.createElement("div");
+    freeParkingImage.classList.add("free-parking-image");
+
+    const freeParkingName = document.createElement("div");
+    freeParkingName.classList.add("player-text");
+    freeParkingName.textContent = "Free Parking";
+
+    const freeParkingBalance = document.createElement("div");
+    freeParkingBalance.classList.add("player-balance");
+    freeParkingBalance.textContent = `Balance: ${players[lastElement].balance}`;
+
+    freeParkingContainer.appendChild(freeParkingImage);
+    freeParkingContainer.appendChild(freeParkingName);
+    freeParkingContainer.appendChild(freeParkingBalance);
+    document.body.appendChild(freeParkingContainer);
 }
 
 function checkStartingInput(input) {
@@ -152,7 +188,7 @@ function checkStartingInput(input) {
     else return false;
 }
 
-function actionPassGo() {
+function passGo() {
     const passGoButton = document.querySelectorAll(".pass-go");
     const playerBalanceElements = document.querySelectorAll(".player-balance");
 
@@ -164,10 +200,81 @@ function actionPassGo() {
                     playerBalanceElements[i].textContent = `Balance: ${players[i].balance}`;
                     break;
                 }
-                console.log(`i: ${i}`);
             }
         })
     })
+}
+
+function createTransactionModal(){
+    //Create a modal for transactions. Gonna try with checkboxes first
+
+    const transactionModal = document.createElement("dialog");
+
+    const payerContainer = document.createElement("div");
+    payerContainer.classList.add("transactor");
+
+    const payerHeader = document.createElement("h1");
+    payerHeader.textContent = "Select the payer";
+
+    const payingPlayers = populateTransactionModal(playerCountInput.value, players);
+
+    payerContainer.appendChild(payerHeader);
+    payerContainer.appendChild(payingPlayers);
+
+    const receiverContainer = document.createElement("div");
+    receiverContainer.classList.add("transactor");
+
+    const receiverHeader = document.createElement("h1");
+    receiverHeader.textContent = "Select the receiver";
+
+    const receivingPlayers = populateTransactionModal(playerCountInput.value, players);
+
+    receiverContainer.appendChild(receiverHeader);
+    receiverContainer.appendChild(receivingPlayers);
+
+    transactionModal.appendChild(payerContainer);
+    transactionModal.appendChild(receiverContainer);
+
+    console.log(receivingPlayers);
+    console.log(payingPlayers);
+    
+    
+    document.body.appendChild(transactionModal);
+    transactionModal.open();
+}
+
+function populateTransactionModal (playerCount, array) {
+    const container = document.createElement("div");
+
+    for (let i = 0; i < playerCount; i++) {
+        const checkBox = document.createElement("input");
+        checkBox.setAttribute("type", "checkbox");
+
+        const checkboxLabel = document.createElement("label");
+        checkboxLabel.textContent = array[i].name;
+
+        container.appendChild(checkBox);
+        container.appendChild(checkboxLabel);
+    }
+
+    const bankTransactor = document.createElement("input");
+    bankTransactor.setAttribute("type", "checkbox");
+
+    const bankTransactorLabel = document.createElement("label");
+    bankTransactorLabel.textContent = "Bank";
+
+    const freeParkingTransactor = document.createElement("input");
+    freeParkingTransactor.setAttribute("type", "checkbox");
+
+    const freeParkingTransactorLabel = document.createElement("label");
+    freeParkingTransactorLabel.textContent = "Free Parking";
+
+    container.appendChild(bankTransactor);
+    container.appendChild(bankTransactorLabel);
+    container.appendChild(freeParkingTransactor);
+    container.appendChild(freeParkingTransactorLabel);
+    
+    return container;
 }
 
 
