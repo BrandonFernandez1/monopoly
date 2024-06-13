@@ -1,12 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Poetsen+One&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+body {
+    font-family: "Red Hat Display";
+    background-color: lightskyblue;
+}
+
 .parent,
 .player-container {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
-    font-family: "Red Hat Display";
+    /* font-family: "Red Hat Display"; */
 }
 
 .player-container {
@@ -43,4 +48,21 @@ form {
 .pass-go-container {
     margin-left: auto;
     text-align: center;
+}
+
+.transaction-main {
+    display: flex;
+    gap: 30px;
+}
+
+.transaction-buttons {
+    text-align: right;
+}
+
+.checkboxes {
+    margin-left: 10px;
+}
+
+.amount {
+    margin: auto;
 }

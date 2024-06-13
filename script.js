@@ -88,7 +88,7 @@ function modalButtonEventListeners() {
 
         playerNameModal.close();
         createGame(players);
-        //Call function that adds function here\
+        //Call functions that make website work here
         createTransactionModal();
         passGo();
     })
@@ -205,46 +205,73 @@ function passGo() {
     })
 }
 
-function createTransactionModal(){
+function createTransactionModal() {
     //Create a modal for transactions. Gonna try with checkboxes first
+    //3 lines of code are the same when populating payers and receivers. Make a function for this in the future??
+
+    const modalContentDiv = document.createElement("div");
+    modalContentDiv.classList.add("transaction-main");
 
     const transactionModal = document.createElement("dialog");
-
+    transactionModal.classList.add("transaction-modal");
+    
     const payerContainer = document.createElement("div");
     payerContainer.classList.add("transactor");
-
     const payerHeader = document.createElement("h1");
-    payerHeader.textContent = "Select the payer";
-
+    payerHeader.textContent = "Select payer(s)";
     const payingPlayers = populateTransactionModal(playerCountInput.value, players);
-
     payerContainer.appendChild(payerHeader);
     payerContainer.appendChild(payingPlayers);
 
+    const amountDiv = document.createElement("div");
+    amountDiv.classList.add("amount");
+    const amountHeader = document.createElement("p");
+    amountHeader.classList.add("amount-header");
+    amountHeader.textContent = "Amount";
+    const amountInput = document.createElement("input");
+    amountInput.setAttribute("type", "number");
+    amountDiv.appendChild(amountHeader);
+    amountDiv.appendChild(amountInput);
+
     const receiverContainer = document.createElement("div");
     receiverContainer.classList.add("transactor");
-
     const receiverHeader = document.createElement("h1");
-    receiverHeader.textContent = "Select the receiver";
-
+    receiverHeader.textContent = "Select receiver(s)";
     const receivingPlayers = populateTransactionModal(playerCountInput.value, players);
-
     receiverContainer.appendChild(receiverHeader);
     receiverContainer.appendChild(receivingPlayers);
 
-    transactionModal.appendChild(payerContainer);
-    transactionModal.appendChild(receiverContainer);
+    modalContentDiv.appendChild(payerContainer);
+    modalContentDiv.appendChild(amountDiv);
+    modalContentDiv.appendChild(receiverContainer);
+    transactionModal.appendChild(modalContentDiv);
 
-    console.log(receivingPlayers);
-    console.log(payingPlayers);
-    
-    
+    const buttonsDiv = document.createElement("div");
+    buttonsDiv.classList.add("transaction-buttons");
+
+    for (let i = 0; i < 2; i++){ 
+        const button = document.createElement("button");
+        
+        if (i == 0) {
+            button.textContent = "Cancel";
+            button.setAttribute("id", "payment-cancel-button");
+            //paymentButtonEventListener(button);
+        } else {
+            button.textContent = "Confirm";
+            button.setAttribute("id", "payment-confirm-button");
+            //paymentButtonEventListener(button);
+        }
+        buttonsDiv.appendChild(button);
+    }
+    transactionModal.appendChild(buttonsDiv);
+
     document.body.appendChild(transactionModal);
-    transactionModal.open();
+    transactionModal.show(); //Remove once modal has been completed!!!
 }
 
 function populateTransactionModal (playerCount, array) {
     const container = document.createElement("div");
+    container.classList.add("checkboxes");
 
     for (let i = 0; i < playerCount; i++) {
         const checkBox = document.createElement("input");
@@ -255,26 +282,34 @@ function populateTransactionModal (playerCount, array) {
 
         container.appendChild(checkBox);
         container.appendChild(checkboxLabel);
+        container.appendChild(document.createElement("br"));
     }
 
     const bankTransactor = document.createElement("input");
     bankTransactor.setAttribute("type", "checkbox");
-
     const bankTransactorLabel = document.createElement("label");
     bankTransactorLabel.textContent = "Bank";
 
     const freeParkingTransactor = document.createElement("input");
     freeParkingTransactor.setAttribute("type", "checkbox");
-
     const freeParkingTransactorLabel = document.createElement("label");
     freeParkingTransactorLabel.textContent = "Free Parking";
 
     container.appendChild(bankTransactor);
     container.appendChild(bankTransactorLabel);
+    container.appendChild(document.createElement("br"));
     container.appendChild(freeParkingTransactor);
     container.appendChild(freeParkingTransactorLabel);
     
     return container;
+}
+
+function paymentButtonEventListener(button) {
+    if (button.textContent == "Confirm") {
+        button.addEventListener("click", () => {
+            
+        })
+    }
 }
 
 
