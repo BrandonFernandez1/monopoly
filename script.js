@@ -24,6 +24,22 @@ function Player(name, balance, bankrupt) {
     this.passGo = function () {
         this.balance += 200;
     }
+
+    this.pay = function (amount) {
+        if (this.balance >= amount) {
+            this.balance -= amount;
+            return amount;
+        } else {
+            const remainingBalance = this.balance;
+            this.balance = 0;
+            this.bankrupt = true;
+            return remainingBalance;
+        }
+    }
+
+    this.receive = function (amount) {
+        this.balance += parseInt(amount);
+    }
 }
 
 function showPlayerNameModal(count) {
@@ -153,7 +169,7 @@ function createGame(playerArray) {
     bankName.textContent = "Bank";
 
     const bankBalance = document.createElement("div");
-    bankBalance.classList.add("bank-balance");
+    bankBalance.classList.add("player-balance");
     bankBalance.textContent = `Balance: ∞`;
 
     bankContainer.appendChild(bankImage);
@@ -207,7 +223,6 @@ function passGo() {
 
 function createTransactionModal() {
     //Create a modal for transactions. Gonna try with checkboxes first
-    //3 lines of code are the same when populating payers and receivers. Make a function for this in the future??
 
     const modalContentDiv = document.createElement("div");
     modalContentDiv.classList.add("transaction-main");
@@ -217,27 +232,28 @@ function createTransactionModal() {
     
     const payerContainer = document.createElement("div");
     payerContainer.classList.add("transactor");
-    const payerHeader = document.createElement("h1");
+    const payerHeader = document.createElement("h2");
     payerHeader.textContent = "Select payer(s)";
-    const payingPlayers = populateTransactionModal(playerCountInput.value, players);
+    const payingPlayers = populateTransactionModal(playerCountInput.value, "losers");
     payerContainer.appendChild(payerHeader);
     payerContainer.appendChild(payingPlayers);
 
     const amountDiv = document.createElement("div");
     amountDiv.classList.add("amount");
-    const amountHeader = document.createElement("p");
+    const amountHeader = document.createElement("h3");
     amountHeader.classList.add("amount-header");
     amountHeader.textContent = "Amount";
     const amountInput = document.createElement("input");
     amountInput.setAttribute("type", "number");
+    amountInput.setAttribute("id", "transaction-amount");
     amountDiv.appendChild(amountHeader);
     amountDiv.appendChild(amountInput);
 
     const receiverContainer = document.createElement("div");
     receiverContainer.classList.add("transactor");
-    const receiverHeader = document.createElement("h1");
+    const receiverHeader = document.createElement("h2");
     receiverHeader.textContent = "Select receiver(s)";
-    const receivingPlayers = populateTransactionModal(playerCountInput.value, players);
+    const receivingPlayers = populateTransactionModal(playerCountInput.value, "winners");
     receiverContainer.appendChild(receiverHeader);
     receiverContainer.appendChild(receivingPlayers);
 
@@ -255,11 +271,11 @@ function createTransactionModal() {
         if (i == 0) {
             button.textContent = "Cancel";
             button.setAttribute("id", "payment-cancel-button");
-            //paymentButtonEventListener(button);
+            paymentButtonEventListener(button);
         } else {
             button.textContent = "Confirm";
             button.setAttribute("id", "payment-confirm-button");
-            //paymentButtonEventListener(button);
+            paymentButtonEventListener(button);
         }
         buttonsDiv.appendChild(button);
     }
@@ -269,16 +285,17 @@ function createTransactionModal() {
     transactionModal.show(); //Remove once modal has been completed!!!
 }
 
-function populateTransactionModal (playerCount, array) {
+function populateTransactionModal (playerCount, className) {
     const container = document.createElement("div");
     container.classList.add("checkboxes");
 
     for (let i = 0; i < playerCount; i++) {
         const checkBox = document.createElement("input");
         checkBox.setAttribute("type", "checkbox");
+        checkBox.classList.add(className);
 
         const checkboxLabel = document.createElement("label");
-        checkboxLabel.textContent = array[i].name;
+        checkboxLabel.textContent = players[i].name;
 
         container.appendChild(checkBox);
         container.appendChild(checkboxLabel);
@@ -287,11 +304,13 @@ function populateTransactionModal (playerCount, array) {
 
     const bankTransactor = document.createElement("input");
     bankTransactor.setAttribute("type", "checkbox");
+    bankTransactor.classList.add(className);
     const bankTransactorLabel = document.createElement("label");
     bankTransactorLabel.textContent = "Bank";
 
     const freeParkingTransactor = document.createElement("input");
     freeParkingTransactor.setAttribute("type", "checkbox");
+    freeParkingTransactor.classList.add(className);
     const freeParkingTransactorLabel = document.createElement("label");
     freeParkingTransactorLabel.textContent = "Free Parking";
 
@@ -305,11 +324,44 @@ function populateTransactionModal (playerCount, array) {
 }
 
 function paymentButtonEventListener(button) {
-    if (button.textContent == "Confirm") {
+
+    if (button.textContent = "Confirm") {
         button.addEventListener("click", () => {
+            const loserCheckboxes = document.querySelectorAll(".losers");
+            const winnerCheckboxes = document.querySelectorAll(".winners");
+            const transactionAmount = document.querySelector("#transaction-amount");
+            const playerBalanceElements = document.querySelectorAll(".player-balance");
             
+
+            let losers = [];
+            let winners = [];
+            let loserIndices = [];
+            let winnerIndices = [];
+
+            for (let i = 0; i < loserCheckboxes.length; i++) {
+                if (loserCheckboxes[i].checked) {
+                    losers.push(loserCheckboxes[i]);
+                    loserIndices.push(i);
+                }
+                
+                if (winnerCheckboxes[i].checked) {
+                    winners.push(winnerCheckboxes[i]);
+                    winnerIndices.push(i);
+                }
+            }
+
+            for (let i = 0; i < loserIndices.length; i++) {
+                players[loserIndices].pay(transactionAmount.value);
+                playerBalanceElements[loserIndices].textContent = `Balance: ${players[loserIndices].balance}`;
+            }
+
+            for (let i = 0; i < winnerIndices.length; i++) {
+                players[winnerIndices.length].receive(transactionAmount.value);
+                //playerBalanceElements[winnerIndices].textContent = `Balance: ${players[winnerIndices].balance}`;
+                console.log(playerBalanceElements[winnerIndices].textContent);
+            }
         })
-    }
+    }   
 }
 
 
